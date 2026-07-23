@@ -1,0 +1,273 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+{{ expense.title }} | SplitMate
+{% endblock %}
+
+{% block expenses_active %}
+active
+{% endblock %}
+
+{% block page_content %}
+
+<!-- Header -->
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">
+            {{ expense.title }}
+        </h2>
+        <p>
+            {{ expense.description or "Manage your expense details." }}
+        </p>
+    </div>
+    <a href="{{ url_for('expenses.expenses_home') }}"
+       class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Back to Expenses
+    </a>
+</div>
+<!-- Summary Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-md-3">
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body text-center">
+                <h6 class="text-muted">
+                    Participants
+                </h6>
+                <h2>
+                    {{ participant_count }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body text-center">
+                <h6 class="text-muted">
+                    Amount
+                </h6>
+                <h2>
+                    {{ expense.currency }}
+                    {{ "%.2f"|format(expense.amount) }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body text-center">
+                <h6 class="text-muted">
+                    Paid
+                </h6>
+                <h2>
+                    ₹ {{ "%.2f"|format(total_paid) }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body text-center">
+                <h6 class="text-muted">
+                    Due
+                </h6>
+                <h2>
+                    ₹ {{ "%.2f"|format(total_due) }}
+                </h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+
+<div class="card shadow border-0 rounded-4 mb-4">
+    <div class="card-body">
+        <h5 class="fw-bold mb-4">
+            Quick Actions
+        </h5>
+        <div class="d-flex flex-wrap gap-2">
+            <a href="{{ url_for('expenses.add_expense') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                    Add Expense
+            </a>
+            <a href="{{ url_for('expenses.edit_expense', expense_id=expense.id) }}"
+               class="btn btn-warning">
+                <i class="bi bi-pencil-fill"></i>
+                Edit Expense
+            </a>
+            <a href="{{ url_for('expenses.delete_expense', expense_id=expense.id) }}"
+               class="btn btn-danger">
+                <i class="bi bi-trash-fill"></i>
+                Delete Expense
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Expense Information -->
+
+<div class="card shadow border-0 rounded-4 mb-4">
+    <div class="card-body">
+        <h5 class="fw-bold mb-3">
+            Expense Information
+        </h5>
+        <table class="table">
+            <tr>
+                <th width="220">Title</th>
+                <td>{{ expense.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ expense.description or "-" }}</td>
+            </tr>
+            <tr>
+                <th>Group</th>
+                <td>{{ expense.group.name }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ expense.category }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ expense.currency }} {{ "%.2f"|format(expense.amount) }}</td>
+            </tr>
+            <tr>
+                <th>Split Type</th>
+                <td>{{ expense.split_type }}</td>
+            </tr>
+            <tr>
+                <th>Payment Method</th>
+                <td>{{ expense.payment_method }}</td>
+            </tr>
+            <tr>
+                <th>Expense Date</th>
+                <td>{{ expense.expense_date.strftime("%Y-%m-%d") }}</td>
+            </tr>
+            <tr>
+                <th>Created By</th>
+                <td>{{ expense.creator.fullname }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<!-- Participants -->
+
+<div class="card shadow border-0 rounded-4 mb-4">
+    <div class="card-body">
+        <h5 class="fw-bold mb-3">
+            Participants
+        </h5>
+        {% if participants %}
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Share</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+
+                </tr>
+            </thead>
+            <tbody>
+            {% for participant in participants %}
+                <tr>
+                    <td>
+                        {{ participant.user.fullname }}
+                    </td>
+                    <td>
+                        ₹ {{ "%.2f"|format(participant.share_amount) }}
+                    </td>
+                    <td>
+                        ₹ {{ "%.2f"|format(participant.amount_paid) }}
+                    </td>
+                    <td>
+    {% set balance = participant.amount_paid - participant.share_amount %}
+
+    {% if balance > 0 %}
+        <span class="badge bg-success">
+            +₹ {{ "%.2f"|format(balance) }}
+        </span>
+
+    {% elif balance < 0 %}
+        <span class="badge bg-danger">
+            -₹ {{ "%.2f"|format(balance|abs) }}
+        </span>
+
+    {% else %}
+        <span class="badge bg-secondary">
+            ₹ 0.00
+        </span>
+    {% endif %}
+</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-center text-muted py-4">
+            No participants added.
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Payment Status -->
+
+<div class="card shadow border-0 rounded-4 mb-4">
+    <div class="card-body">
+        <h5 class="fw-bold mb-3">
+            Payment Status
+        </h5>
+        {% if expense.amount > 0 %}
+    {% set percentage = (total_paid / expense.amount * 100) %}
+{% else %}
+    {% set percentage = 0 %}
+{% endif %}
+
+<div class="progress mb-3" style="height:25px;">
+    <div
+        class="progress-bar bg-success"
+        role="progressbar"
+        aria-valuenow="{{ percentage|int }}"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        style="width: {{ percentage|int }}%">
+        {{ percentage|int }}%
+    </div>
+</div>
+        <div class="d-flex justify-content-between">
+            <strong>
+                Paid:
+                ₹ {{ "%.2f"|format(total_paid) }}
+            </strong>
+            <strong>
+                Due:
+                ₹ {{ "%.2f"|format(total_due) }}
+            </strong>
+        </div>
+    </div>
+</div>
+
+<!-- Settlement Status -->
+
+<div class="card shadow border-0 rounded-4">
+    <div class="card-body text-center">
+        <h5 class="fw-bold mb-3">
+            Settlement Status
+        </h5>
+        {% if total_due <= 0 %}
+            <span class="badge bg-success fs-6">
+                Fully Settled
+            </span>
+        {% else %}
+            <span class="badge bg-warning text-dark fs-6">
+                ₹ {{ "%.2f"|format(total_due) }} Remaining
+            </span>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

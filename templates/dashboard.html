@@ -1,0 +1,269 @@
+{% extends "dashboard_base.html" %}
+{% block title %}Dashboard | SplitMate{% endblock %}
+{% block dashboard_active %}
+active
+{% endblock %}
+
+{% block page_content %}
+<!-- Main Content -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+
+            <div>
+
+                <h2 class="fw-bold mb-1">
+                    Dashboard
+                </h2>
+
+                <p >
+                    Track your expenses and balances.
+                </p>
+
+            </div>
+
+            <div class="d-flex gap-2">
+                
+                <a href="{{ url_for('groups.create_group') }}" class="btn btn-warning">
+                    <i class="bi bi-people-fill"></i>
+                    Create Group
+                </a>
+
+                <a href="{{url_for('expenses.add_expense')}}" class="btn btn-primary">
+                    <i class="bi bi-receipt"></i>
+                    Add Expense
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Summary Cards -->
+
+        <div class="row g-4">
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body">
+
+                        <h6>Total Groups</h6>
+
+                        <h2>{{ total_groups }}</h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body">
+
+                        <h6>Total Spending</h6>
+                        <h2>₹ {{ "%.2f"|format(total_spending) }}</h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body">
+
+                        <h6>Your Share</h6>
+                            <h2>₹ {{ "%.2f"|format(your_share) }}</h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+
+                <div class="card dashboard-card">
+
+                    <div class="card-body">
+
+                        <h6>You Have To Pay</h6>
+
+                        <h2>₹ {{ "%.2f"|format(pending_settlement) }}</h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- Quick Actions -->
+
+        <!-- <div class="row mt-5">
+
+            <div class="col-12">
+
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-body">
+
+                        <h4 class="fw-bold mb-4">
+                            Quick Actions
+                        </h4>
+
+                        <div class="row g-3">
+
+                            <div class="col-lg-3 col-md-6">
+                                <a href="{{ url_for('groups.create_group') }}" class="btn btn-light border w-100 py-3 rounded-4">
+                                    <i class="bi bi-people-fill fs-3 d-block mb-2"></i>
+                                    Create Group
+                                </a>
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <a href="{{url_for('expenses.add_expense')}}" class="btn btn-light border w-100 py-3 rounded-4">
+
+                                    <i class="bi bi-plus-circle-fill fs-3 d-block mb-2"></i>
+
+                                    Add Expense
+
+                                </a>
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <a href="#" class="btn btn-light border w-100 py-3 rounded-4">
+
+                                    <i class="bi bi-cash-stack fs-3 d-block mb-2"></i>
+
+                                    Settle Up
+
+                                </a>
+
+                            </div>
+
+                            <div class="col-lg-3 col-md-6">
+
+                                <a href="{{ url_for('groups.groups_home') }}" class="btn btn-light border w-100 py-3 rounded-4">
+                                    <i class="bi bi-folder-fill fs-3 d-block mb-2"></i>
+                                    View Groups
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div> -->
+
+        <!-- Recent Expenses -->
+
+        <div class="row mt-5">
+
+            <div class="col-12">
+
+                <div class="card border-0 shadow rounded-4">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+
+                            <h4 class="fw-bold mb-0">
+                                Recent Expenses
+                            </h4>
+
+                            <a href="{{url_for('expenses.expenses_home')}}" class="btn btn-outline-primary btn-sm">
+                                View All
+                            </a>
+
+                        </div>
+
+                        <div class="table-responsive">
+
+                            <table class="table align-middle">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>Title</th>
+                                        <th>Group</th>
+                                        <th>Amount</th>
+                                        <th>Payment</th>
+                                        <th>Date</th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                {% if recent_expenses %}
+
+                                    {% for expense in recent_expenses %}
+
+                                    <tr>
+
+                                        <td>{{ expense.title }}</td>
+
+                                        <td>{{ expense.group.name }}</td>
+
+                                        <td>
+
+                                            {{ expense.currency }}
+
+                                            {{ "%.2f"|format(expense.amount) }}
+
+                                        </td>
+
+                                        <td>{{ expense.payment_method }}</td>
+
+                                        <td>{{ expense.expense_date }}</td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <tr>
+
+                                        <td colspan="5" class="text-center text-muted py-4">
+
+                                            No expenses found.
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endif %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+{% endblock %}

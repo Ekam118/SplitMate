@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Login | SplitMate{% endblock %}
+{% block content %}
+
+<section class="auth-section">
+    <div class="auth-card">
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">
+            Login to continue using SplitMate
+        </p>
+        <form method="POST" action="{{ url_for('auth.login') }}">
+            <div class="mb-3">
+                <label class="form-label">Username or Email</label>
+                <input type="text" name="login" class="form-control" placeholder="Enter username or email"required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <!-- <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                    <label class="form-check-label text-white" for="remember">Remember Me</label>
+                </div> -->
+
+                <a href="{{ url_for('auth.forgot_password') }}" class="text-decoration-none text-info">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <button type="submit" class="btn btn-auth">Login</button>
+        </form>
+        <div class="auth-link">Don't have an account?
+            <a href="{{ url_for('auth.register') }}">Register</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

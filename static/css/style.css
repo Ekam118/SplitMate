@@ -1,0 +1,458 @@
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI",sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+}
+
+
+/* TOPBAR */
+
+.topbar{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+
+/* SEARCH BOX */
+
+.search-box{
+    display:flex;
+    width:100%;
+}
+
+.search-box .form-control{
+    height:45px;
+    border-radius:12px 0 0 12px;
+    border:1px solid #ddd;
+    padding-left:20px;
+}
+
+
+.search-box .btn{
+    height:45px;
+    border-radius:0 12px 12px 0;
+    padding:0 20px;
+}
+
+/* TOPBAR ICONS */
+
+.topbar a{
+    color:white;
+    text-decoration:none;
+}
+
+
+.topbar a:hover{
+    color:#93c5fd;
+}
+   /* SIDEBAR */
+
+.wrapper{
+    display:flex;
+    min-height:100vh;
+}
+
+.sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#16213e,#0f3460);
+    color:#fff;
+    padding:25px;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+}
+
+.logo h3{
+    font-weight:700;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.sidebar .nav-link{
+    color:#d8d8d8;
+    padding:12px 15px;
+    border-radius:12px;
+    margin-bottom:8px;
+    transition:.3s;
+    font-weight:500;
+}
+
+.sidebar .nav-link i{
+    margin-right:10px;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active{
+    background:#ffffff;
+    color:#16213e;
+}
+
+.sidebar-footer{
+    margin-top:60px;
+}
+
+.sidebar-footer .card{
+    border-radius:18px;
+}
+
+   /* MAIN CONTENT */
+
+.main-content{
+    margin-left:260px;
+    width:100%;
+    padding:35px;
+    color:white;
+}
+
+   /* CARDS */
+
+.dashboard-card{
+    border:none;
+    border-radius:20px;
+    transition:.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.dashboard-card:hover{
+    transform:translateY(-6px);
+}
+
+.dashboard-card .card-body{
+    padding:25px;
+}
+
+.dashboard-card h6{
+    color:#777;
+    margin-bottom:15px;
+}
+
+.dashboard-card h2{
+    font-weight:700;
+}
+
+   /* BUTTONS */
+
+.btn{
+    border-radius:12px;
+    font-weight:500;
+}
+
+.btn-primary{
+    background:#4f46e5;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#4338ca;
+}
+
+   /* TABLE */
+
+.table{
+    margin-bottom:0;
+}
+
+.table thead th{
+    border:none;
+    color:#666;
+    font-weight:600;
+}
+
+.table tbody td{
+    vertical-align:middle;
+}
+
+   /* TOAST */
+
+.toast-container{
+    position:fixed;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:2000;
+}
+
+   /* RESPONSIVE */
+
+@media(max-width:992px){
+
+    .sidebar{
+        width:90px;
+        padding:15px;
+    }
+
+    .sidebar .logo h3{
+        font-size:18px;
+    }
+
+    .sidebar .nav-link{
+        text-align:center;
+        padding:12px;
+    }
+
+    .sidebar .nav-link i{
+        margin-right:0;
+        display:block;
+        font-size:20px;
+        margin-bottom:5px;
+    }
+
+    .main-content{
+        margin-left:90px;
+        padding:20px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .wrapper{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    .main-content{
+        margin-left:0;
+    }
+
+}
+
+.auth-section{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.auth-card{
+    width:100%;
+    max-width:430px;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:20px;
+    padding:35px;
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+
+.auth-title{
+    color:#fff;
+    font-weight:700;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.auth-subtitle{
+    color:#dbeafe;
+    text-align:center;
+    margin-bottom:25px;
+}
+
+
+.auth-card .form-label{
+    color:#fff;
+    font-weight:500;
+}
+
+.form-control{
+    height:48px;
+    border:2px solid #93c5fd;
+    border-radius:12px;
+    transition: all 0.3s ease;
+}
+
+.form-control:hover{
+    border-color:#1d4ed8;
+}
+
+.form-control:focus{
+    border-color:#1d4ed8;
+    box-shadow:0 0 0 .2rem rgba(59, 41, 161, 0.25);
+}
+
+.form-select{
+    height:48px;
+    border:2px solid #93c5fd;
+    border-radius:12px;
+    transition: all 0.3s ease;
+}
+.form-select:hover{
+    border-color:#1d4ed8;
+}
+
+.form-select:focus{
+    box-shadow:0 0 0 .2rem rgba(59, 41, 161, 0.25);
+}
+
+.form-check-input{
+    height:18px;
+    border:2px solid #93c5fd;
+    border-radius:12px;
+    transition: all 0.3s ease;
+
+}
+
+.form-check-input:hover{
+        border-color:#1d4ed8;
+}
+.form-check-input:focus{
+    box-shadow:0 0 0 .2rem rgba(59, 41, 161, 0.25);
+}
+
+.btn-auth{
+    width:100%;
+    height:48px;
+    border:none;
+    border-radius:12px;
+    font-weight:600;
+    color:#fff;
+    background:linear-gradient(90deg,#2563eb,#3b82f6);
+}
+
+.btn-auth:hover{
+    background:linear-gradient(90deg,#1d4ed8,#2563eb);
+}
+
+.auth-link{
+    text-align:center;
+    margin-top:20px;
+    color:#fff;
+}
+
+.auth-link a{
+    color:#93c5fd;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.auth-link a:hover{
+    text-decoration:underline;
+} 
+
+
+/* ABOUT PAGE */
+
+
+.about-container{
+    width:100%;
+}
+
+
+.about-header{
+
+    background:rgba(255,255,255,0.12);
+    padding:40px;
+    border-radius:20px;
+    text-align:center;
+    margin-bottom:30px;
+
+}
+
+
+.about-header h1{
+
+    font-size:40px;
+    font-weight:700;
+
+}
+
+
+.about-header span{
+
+    color:#93c5fd;
+
+}
+
+
+.about-header p{
+
+    color:#e0e7ff;
+    font-size:18px;
+
+}
+
+
+
+
+.about-features{
+
+    display:flex;
+    gap:25px;
+    margin-bottom:30px;
+
+}
+
+
+
+.about-box{
+
+    flex:1;
+    background:white;
+    color:#1e293b;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+
+}
+
+
+
+.about-box i{
+
+    font-size:35px;
+    color:#2563eb;
+    margin-bottom:15px;
+
+}
+
+
+
+.about-box p{
+
+    color:#64748b;
+
+}
+
+
+
+
+.how-use{
+
+    background:rgba(255,255,255,0.12);
+    padding:30px;
+    border-radius:20px;
+
+}
+
+
+
+.how-use h3{
+
+    margin-bottom:20px;
+
+}
+
+
+
+.how-use p{
+
+    color:#e0e7ff;
+
+}

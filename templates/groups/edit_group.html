@@ -1,0 +1,155 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Edit Group | SplitMate
+{% endblock %}
+
+{% block groups_active %}
+active
+{% endblock %}
+
+{% block page_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            Edit Group
+        </h2>
+
+        <p>
+            Update your group information.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow rounded-4">
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Group Name
+                </label>
+
+                <input
+                    type="text"
+                    name="name"
+                    class="form-control"
+                    value="{{ group.name }}"
+                    required>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Description
+                </label>
+
+                <textarea
+                    name="description"
+                    class="form-control"
+                    rows="3">{{ group.description }}</textarea>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Group Type
+                </label>
+
+                <select
+                    name="group_type"
+                    class="form-select">
+
+                    <option value="Friends" {% if group.group_type=="Friends" %}selected{% endif %}>Friends</option>
+
+                    <option value="Family" {% if group.group_type=="Family" %}selected{% endif %}>Family</option>
+
+                    <option value="Trip" {% if group.group_type=="Trip" %}selected{% endif %}>Trip</option>
+
+                    <option value="Office" {% if group.group_type=="Office" %}selected{% endif %}>Office</option>
+
+                    <option value="Other" {% if group.group_type=="Other" %}selected{% endif %}>Other</option>
+
+                </select>
+
+            </div>
+
+            <div class="form-check mb-3">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="trip_mode"
+                    id="trip_mode"
+                    {% if group.trip_mode %}checked{% endif %}>
+
+                <label
+                    class="form-check-label"
+                    for="trip_mode">
+
+                    Enable Trip Mode
+
+                </label>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Trip Start Date
+                </label>
+
+                <input
+                    type="date"
+                    name="trip_start_date"
+                    class="form-control"
+                    value="{{ group.trip_start_date }}">
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Trip End Date
+                </label>
+
+                <input
+                    type="date"
+                    name="trip_end_date"
+                    class="form-control"
+                    value="{{ group.trip_end_date }}">
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn btn-primary">
+
+                Update Group
+
+            </button>
+
+            <a href="{{ url_for('groups.group_dashboard', group_id=group.id) }}"
+               class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

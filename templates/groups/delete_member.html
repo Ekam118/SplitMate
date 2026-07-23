@@ -1,0 +1,70 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Remove Member | SplitMate
+{% endblock %}
+
+{% block groups_active %}
+active
+{% endblock %}
+
+{% block page_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            Remove Member
+        </h2>
+
+        <p>
+            This action cannot be undone.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow rounded-4">
+
+    <div class="card-body">
+
+        <div class="alert alert-danger">
+
+            Are you sure you want to remove
+
+            <strong>{{ member.user.fullname }}</strong>
+
+            from
+
+            <strong>{{ group.name }}</strong>?
+
+        </div>
+
+        <form method="POST">
+
+            <button
+                type="submit"
+                class="btn btn-danger">
+
+                <i class="bi bi-trash-fill"></i>
+
+                Remove Member
+
+            </button>
+
+            <a href="{{ url_for('groups.group_members', group_id=group.id) }}"
+               class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
