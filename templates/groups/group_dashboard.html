@@ -1,0 +1,412 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+{{ group.name }} | SplitMate
+{% endblock %}
+
+{% block groups_active %}
+active
+{% endblock %}
+
+{% block page_content %}
+
+<!-- Header -->
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            {{ group.name }}
+        </h2>
+
+        <p">
+            {{ group.description or "Manage your group activities." }}
+        </p>
+
+    </div>
+
+    <a href="{{ url_for('groups.groups_home') }}"
+       class="btn btn-secondary">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Back to Groups
+
+    </a>
+
+</div>
+
+<!-- Summary Cards -->
+
+<div class="row g-4 mb-4">
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <h6 class="text-muted">
+                    Members
+                </h6>
+
+                <h2>
+                     {{ member_count }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <h6 class="text-muted">
+                    Expenses
+                </h6>
+
+                <h2>
+                    {{ expense_count }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <div class="card shadow border-0 rounded-4">
+
+            <div class="card-body text-center">
+
+                <h6 class="text-muted">
+                    Total Amount
+                </h6>
+
+                <h2>
+                     ₹ {{ "%.2f"|format(total_amount) }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="col-md-3">
+
+    <div class="card shadow border-0 rounded-4">
+
+        <div class="card-body text-center">
+
+            <h6 class="text-muted">
+                Settlements
+            </h6>
+
+            <h2>
+                {{ settlement_count }}
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- Quick Actions -->
+
+<div class="card shadow border-0 rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-4">
+
+            Quick Actions
+
+        </h5>
+
+        <div class="d-flex flex-wrap gap-2">
+
+            <a href="{{ url_for('groups.group_members', group_id=group.id) }}"
+               class="btn btn-primary">
+
+                <i class="bi bi-people-fill"></i>
+
+                Members
+
+            </a>
+            <a href="{{ url_for('expenses.expenses_home') }}" class="btn btn-info">
+                <i class="bi bi-receipt"></i>
+                View Expenses
+
+            </a>
+            <a href="{{ url_for('expenses.add_expense') }}"
+               class="btn btn-success">
+
+                <i class="bi bi-plus-circle"></i>
+
+                Add Expense
+
+            </a>
+
+            <a href="{{ url_for('groups.edit_group', group_id=group.id) }}"
+               class="btn btn-warning">
+
+                <i class="bi bi-pencil-fill"></i>
+
+                Edit Group
+
+            </a>
+
+            <a href="{{ url_for('groups.delete_group', group_id=group.id) }}"
+               class="btn btn-danger">
+
+                <i class="bi bi-trash-fill"></i>
+
+                Delete Group
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Group Information -->
+
+<div class="card shadow border-0 rounded-4 mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+
+            Group Information
+
+        </h5>
+
+        <table class="table">
+
+            <tr>
+
+                <th width="220">
+
+                    Group Name
+
+                </th>
+
+                <td>
+
+                    {{ group.name }}
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    Description
+
+                </th>
+
+                <td>
+
+                    {{ group.description or "-" }}
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    Group Type
+
+                </th>
+
+                <td>
+
+                    {{ group.group_type }}
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    Trip Mode
+
+                </th>
+
+                <td>
+
+                    {% if group.trip_mode %}
+
+                        Enabled
+
+                    {% else %}
+
+                        Disabled
+
+                    {% endif %}
+
+                </td>
+
+            </tr>
+
+            {% if group.trip_mode %}
+
+            <tr>
+
+                <th>
+
+                    Trip Start
+
+                </th>
+
+                <td>
+
+                    {{ group.trip_start_date }}
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    Trip End
+
+                </th>
+
+                <td>
+
+                    {{ group.trip_end_date }}
+
+                </td>
+
+            </tr>
+
+            {% endif %}
+
+            <tr>
+
+                <th>
+
+                    Created By
+
+                </th>
+
+                <td>
+
+                    {{ group.creator.fullname }}
+
+                </td>
+
+            </tr>
+
+            <tr>
+
+                <th>
+
+                    Created On
+
+                </th>
+
+                <td>
+
+                    {{ group.created_at.strftime("%d-%m-%Y") }}
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- Recent Expenses -->
+
+<div class="card shadow border-0 rounded-4">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+            <h5 class="fw-bold">
+
+                Recent Expenses
+
+            </h5>
+
+            <a href="{{ url_for('expenses.expenses_home') }}"
+               class="btn btn-outline-primary btn-sm">
+
+                View All
+
+            </a>
+
+        </div>
+        {% if recent_expenses %}
+        <table class="table align-middle">
+
+            <thead>
+
+                <tr>
+
+                    <th>Title</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+                {% for expense in recent_expenses %}
+                <tr>
+
+                    <td>
+                        {{ expense.title }}
+                    </td>
+                    <td>
+                        {{ expense.currency }}
+                        {{ "%.2f"|format(expense.amount) }}
+                    </td>
+                    <td>
+                        {{ expense.expense_date }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted text-center py-4">
+            No expenses added yet.
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+
+
+
+{% endblock %}

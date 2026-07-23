@@ -1,0 +1,226 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Settlements | SplitMate
+{% endblock %}
+
+{% block page_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">
+            Settlements
+        </h2>
+        <p>
+            Track your payment settlements.
+        </p>
+    </div>
+</div>
+
+<div class="card shadow border-0 rounded-4">
+
+<div class="card-body">
+
+{% if settlements %}
+
+<div class="table-responsive">
+
+<table class="table align-middle">
+
+<thead>
+
+<tr>
+
+<th>
+Group
+</th>
+
+<th>
+Payer
+</th>
+
+<th>
+Receiver
+</th>
+
+<th>
+Amount
+</th>
+
+<th>
+Status
+</th>
+
+<th>
+Date
+</th>
+
+<th>
+Action
+</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+
+{% for settlement in settlements %}
+
+
+<tr>
+
+<td>
+{{ settlement.group.name }}
+</td>
+
+<td>
+{{ settlement.payer.fullname }}
+</td>
+
+<td>
+{{ settlement.receiver.fullname }}
+</td>
+
+<td>
+₹ {{ "%.2f"|format(settlement.amount) }}
+</td>
+<td>
+
+{% if settlement.status == "Pending" %}
+
+    <span class="badge bg-warning text-dark">
+        Pending
+    </span>
+
+{% elif settlement.status == "Payment Sent" %}
+
+    <span class="badge bg-info">
+        Payment Sent
+    </span>
+
+{% else %}
+
+    <span class="badge bg-success">
+        Paid
+    </span>
+
+{% endif %}
+
+</td>
+
+<td>
+{{ settlement.settlement_date }}
+</td>
+<td>
+
+{% if settlement.status == "Pending" %}
+
+    {% if session["user_id"] == settlement.payer_id %}
+
+        <form method="POST"
+              action="{{ url_for(
+                'settlements.send_payment',
+                settlement_id=settlement.id
+              ) }}">
+
+            <button class="btn btn-primary btn-sm">
+
+                Send Payment
+
+            </button>
+
+        </form>
+
+    {% else %}
+
+        <span class="badge bg-secondary">
+
+            Waiting for Payer
+
+        </span>
+
+    {% endif %}
+
+
+{% elif settlement.status == "Payment Sent" %}
+
+    {% if session["user_id"] == settlement.receiver_id %}
+
+        <form method="POST"
+              action="{{ url_for(
+                'settlements.confirm_payment',
+                settlement_id=settlement.id
+              ) }}">
+
+            <button class="btn btn-success btn-sm">
+
+                Confirm Payment
+
+            </button>
+
+        </form>
+
+    {% else %}
+
+        <span class="badge bg-info">
+
+            Waiting for Confirmation
+
+        </span>
+
+    {% endif %}
+
+
+{% else %}
+
+    <span class="badge bg-success">
+
+        Completed
+
+    </span>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+
+{% endfor %}
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+{% else %}
+
+
+<div class="text-center py-5">
+
+<h4>
+No Settlements Found
+</h4>
+
+<p class="text-muted">
+Your settlement history will appear here.
+</p>
+
+</div>
+
+
+{% endif %}
+
+
+</div>
+
+</div>
+
+
+{% endblock %}

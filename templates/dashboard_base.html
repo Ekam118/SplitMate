@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="wrapper">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h3>SplitMate</h3>
+        </div>
+
+        <ul class="nav flex-column mt-4">
+
+            <li class="nav-item">
+                <a class="nav-link {% block dashboard_active %}{% endblock %}"
+                   href="{{ url_for('dashboard.dashboard_home') }}">
+                    <i class="bi bi-grid-fill"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% block groups_active %}{% endblock %}"
+                   href="{{ url_for('groups.groups_home') }}">
+                    <i class="bi bi-people-fill"></i>
+                    Groups
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% block expenses_active %}{% endblock %}"
+                 href="{{url_for('expenses.expenses_home')}}">
+                    <i class="bi bi-receipt"></i>
+                    Expenses
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% block balances_active %}{% endblock %}" 
+                href="{{ url_for('balances.balance_home') }}">
+                    <i class="bi bi-wallet2"></i>
+                    Balances
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% block settlements_active %}{% endblock %}"
+                href="{{ url_for('settlements.settlement_home') }}">
+                    <i class="bi bi-cash-stack"></i>
+                    Settlements
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% block notifications_active %}{% endblock %}" 
+                href="{{ url_for('notifications.notification_home') }}">
+                    <i class="bi bi-bell-fill"></i>
+                    Notifications
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link {% block profile_active %}{% endblock %}" 
+                href="{{ url_for('profile.profile_home') }}">
+                    <i class="bi bi-person-circle"></i>
+                    Profile
+                </a>
+
+            <li class="nav-item">
+                <a class="nav-link"href="{{ url_for('about.about_home') }}">
+                    <i class="bi bi-info-circle"></i>
+                About
+                </a>
+
+            </li>
+
+
+            </li>
+            <li class="nav-item">
+            <a class="nav-link {% block logout %}{% endblock %}" 
+            href="{{ url_for('auth.logout') }}" >
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
+            </li>
+
+        </ul>
+
+        <div class="sidebar-footer">
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body text-center">
+
+                    <h6 class="fw-bold">
+                        Split Expenses Easily
+                    </h6>
+
+                    <p class="small text-muted mb-0">
+                        Manage trips, friends and roommates effortlessly.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+
+    <div class="topbar">
+
+        <div class="search-box">
+
+            <form method="GET" action="{{ url_for('search.search_home') }}" class="search-box">
+
+
+                <input type="text"
+                name="q"
+                class="form-control"
+                placeholder="Search groups, expenses...">
+
+
+                <button class="btn btn-primary">
+
+                <i class="bi bi-search"></i>
+
+                </button>
+
+
+            </form>
+
+        </div>
+    </div>
+
+
+    {% block page_content %}
+    {% endblock %}
+
+
+</main>
+
+</div>
+
+{% endblock %}

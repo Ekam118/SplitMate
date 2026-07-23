@@ -1,0 +1,84 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Delete Group | SplitMate
+{% endblock %}
+
+{% block groups_active %}
+active
+{% endblock %}
+
+{% block page_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            Delete Group
+        </h2>
+
+        <p>
+            This action cannot be undone.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow rounded-4">
+
+    <div class="card-body">
+
+        <div class="alert alert-danger">
+
+            <h5>
+                Are you sure you want to delete this group?
+            </h5>
+
+            <hr>
+
+            <p class="mb-1">
+
+                <strong>Group Name:</strong>
+
+                {{ group.name }}
+
+            </p>
+
+            <p class="mb-0">
+
+                <strong>Group Type:</strong>
+
+                {{ group.group_type }}
+
+            </p>
+
+        </div>
+
+        <form method="POST">
+
+            <button
+                type="submit"
+                class="btn btn-danger">
+
+                <i class="bi bi-trash"></i>
+
+                Delete Group
+
+            </button>
+
+            <a href="{{ url_for('groups.group_dashboard', group_id=group.id) }}"
+               class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

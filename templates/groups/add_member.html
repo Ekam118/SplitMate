@@ -1,0 +1,73 @@
+{% extends "dashboard_base.html" %}
+
+{% block title %}
+Add Member | SplitMate
+{% endblock %}
+
+{% block groups_active %}
+active
+{% endblock %}
+
+{% block page_content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+        <h2 class="fw-bold mb-1">
+            Add Member
+        </h2>
+
+        <p>
+            Add a user to {{ group.name }}.
+        </p>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow rounded-4">
+
+    <div class="card-body">
+
+        <form method="POST">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    class="form-control"
+                    placeholder="Enter username"
+                    required>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                type="submit">
+
+                <i class="bi bi-person-plus-fill"></i>
+
+                Add Member
+
+            </button>
+
+            <a href="{{ url_for('groups.group_members', group_id=group.id) }}"
+               class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
