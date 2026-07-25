@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+Verify OTP | SplitMate
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-section">
+
+    <div class="auth-card">
+
+        <h2 class="auth-title">Verify OTP</h2>
+        <p class="auth-subtitle">Enter the OTP sent to your email.</p>
+
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">OTP</label>
+                <input type="text" name="otp" class="form-control" maxlength="6" required>
+            </div>
+
+            <button type="submit" class="btn btn-auth">Verify OTP</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

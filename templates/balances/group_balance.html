@@ -1,296 +1,126 @@
 {% extends "dashboard_base.html" %}
 
-
 {% block title %}
 {{ group.name }} Balance | SplitMate
 {% endblock %}
 
-
 {% block page_content %}
-
-
-
 <div class="d-flex justify-content-between align-items-center mb-4">
-
-
     <div>
-
-        <h2 class="fw-bold mb-1">
-
-            {{ group.name }}
-
-        </h2>
-
-
+        <h2 class="fw-bold mb-1">{{ group.name }}</h2>
         <p>
-
             Group Balance Summary
-
         </p>
-
-
     </div>
 
-
-    <a href="{{ url_for('balances.balance_home') }}"
-       class="btn btn-secondary">
-
+    <a href="{{ url_for('balances.balance_home') }}" class="btn btn-secondary">
         <i class="bi bi-arrow-left"></i>
-
         Back
-
     </a>
-
-
 </div>
-
-
-
-
 <div class="card shadow border-0 rounded-4">
-
-
-<div class="card-body">
-
-
-<table class="table align-middle">
-
-
-<thead>
-
-
-<tr>
-
-<th>
-    Member
-</th>
-
-
-<th>
-    Paid
-</th>
-
-
-<th>
-    Share
-</th>
-
-
-<th>
-    Balance
-</th>
-
-
-</tr>
-
-
-</thead>
-
-
-
-<tbody>
-
-
-{% for item in balances %}
-
-
-<tr>
-
-
-<td>
-
-{{ item.user.fullname }}
-
-</td>
-
-
-
-<td>
-
-₹ {{ "%.2f"|format(item.paid) }}
-
-</td>
-
-
-
-<td>
-
-₹ {{ "%.2f"|format(item.share) }}
-
-</td>
-
-
-
-<td>
-
-
-{% if item.balance > 0 %}
-
-
-<span class="badge bg-success">
-
-+ ₹ {{ "%.2f"|format(item.balance) }}
-
-</span>
-
-
-{% elif item.balance < 0 %}
-
-
-<span class="badge bg-danger">
-
-- ₹ {{ "%.2f"|format(item.balance|abs) }}
-
-</span>
-
-
-{% else %}
-
-
-<span class="badge bg-secondary">
-
-₹ 0.00
-
-</span>
-
-
-{% endif %}
-
-
-
-</td>
-
-
-</tr>
-
-
-{% endfor %}
-
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
-
+    <div class="card-body">
+        <table class="table align-middle">
+            <thead>
+                <tr>
+                    <th>Member</th>
+                    <th>Paid</th>
+                    <th>Share</th>
+                    <th>Balance</th>
+                </tr>
+
+
+            </thead>
+            <tbody>
+                {% for item in balances %}
+                <tr>
+                    <td>
+                        {{ item.user.fullname }}
+                    </td>
+                    <td>
+                        ₹ {{ "%.2f"|format(item.paid) }}
+                    </td>
+                    <td>
+                        ₹ {{ "%.2f"|format(item.share) }}
+                    </td>
+                    <td>
+                        {% if item.balance > 0 %}
+                        <span class="badge bg-success">
+                            + ₹ {{ "%.2f"|format(item.balance) }}
+                        </span>
+                        {% elif item.balance < 0 %}
+                        <span class="badge bg-danger">
+                            - ₹ {{ "%.2f"|format(item.balance|abs) }}
+                        </span>
+                        {% else %}
+                        <span class="badge bg-secondary">
+                            ₹ 0.00
+                        </span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="card shadow border-0 rounded-4 mt-4">
+    <div class="card-body">
+        <h5 class="fw-bold mb-3">
+            Settlement Suggestions
+        </h5>
+        {% if settlements %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Payer</th>
+                    <th>Receiver</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in settlements %}
+                <tr>
+                    <td>{{ item.payer.fullname }}</td>
+                    <td>{{ item.receiver.fullname }}</td>
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            ₹ {{ "%.2f"|format(item.amount) }}
+                        </span>
+                    </td>
 
-<div class="card-body">
-
-<h5 class="fw-bold mb-3">
-Settlement Suggestions
-</h5>
-
-
-{% if settlements %}
-
-
-<table class="table">
-
-<thead>
-
-<tr>
-    <th>Payer</th>
-    <th>Receiver</th>
-    <th>Amount</th>
-    <th>Action</th>
-</tr>
-
-</thead>
-
-
-<tbody>
-
-
-{% for item in settlements %}
-
-<tr>
-
-    <td>{{ item.payer.fullname }}</td>
-
-    <td>{{ item.receiver.fullname }}</td>
-
-    <td>
-        <span class="badge bg-warning text-dark">
-            ₹ {{ "%.2f"|format(item.amount) }}
-        </span>
-    </td>
-
-   <td>
-    {% if (item.payer.id, item.receiver.id, item.amount) in pending_pairs %}
-    <span class="badge bg-warning">
-
-    Settlement Requested
-
-    </span>
-
-
-    {% elif session["user_id"] == item.payer.id %}
-    <form method="POST"
-      action="{{ url_for('balances.create_settlement', group_id=group.id) }}">
-      <input type="hidden" name="payer_id" value="{{ item.payer.id }}">
-
-
-    <input type="hidden" name="receiver_id" value="{{ item.receiver.id }}">
-
-
-    <input type="hidden" name="amount" value="{{ item.amount }}">
-
-
-    <button class="btn btn-success btn-sm">
-
-        Settle Up
-
-    </button>
-
-
-    </form>
-
-
-    {% else %}
-
-
-    <span class="badge bg-secondary">
-
-    Waiting for {{ item.payer.fullname }}
-
-    </span>
-
-
-    {% endif %}
-
-
-    </td>
-
-</tr>
-
-
-{% endfor %}
-
-
-</tbody>
-
-
+                <td>
+                    {% if (item.payer.id, item.receiver.id, item.amount) in pending_pairs %}
+                    <span class="badge bg-warning">
+                    Settlement Requested
+                </span>
+                {% elif session["user_id"] == item.payer.id %}
+                <form method="POST" action="{{ url_for('balances.create_settlement', group_id=group.id) }}">
+                    <input type="hidden" name="payer_id" value="{{ item.payer.id }}">
+                    <input type="hidden" name="receiver_id" value="{{ item.receiver.id }}">
+                    <input type="hidden" name="amount" value="{{ item.amount }}">
+                    <button class="btn btn-success btn-sm">
+                        Settle Up
+                    </button>
+                </form>
+                {% else %}
+                <span class="badge bg-secondary">
+                    Waiting for {{ item.payer.fullname }}
+                </span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
 
-
 {% else %}
-
 <p class="text-muted">
 All balances are settled.
 </p>
-
-
 {% endif %}
-
-
 </div>
-
 </div>
-
 {% endblock %}

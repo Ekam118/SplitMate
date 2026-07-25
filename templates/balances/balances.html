@@ -8,153 +8,64 @@ Balances | SplitMate
 
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-
     <div>
-        <h2 class="fw-bold mb-1">
-            Balances
-        </h2>
-
+        <h2 class="fw-bold mb-1">Balances</h2>
         <p>
             Track who owes money and who should receive money.
         </p>
     </div>
-
 </div>
 
-
-
 <div class="card shadow border-0 rounded-4">
-
     <div class="card-body">
-
-
         {% if groups %}
-
-
         <div class="table-responsive">
-
             <table class="table align-middle">
-
-
                 <thead>
-
                     <tr>
-
-                        <th>
-                            Group
-                        </th>
-
-                        <th>
-                            Type
-                        </th>
-
-                        <th width="150">
-                            Action
-                        </th>
-
+                        <th>Group</th>
+                        <th>Type</th>
+                        <th width="150">Action</th>
                     </tr>
-
                 </thead>
 
-
                 <tbody>
-
-
                 {% for group in groups %}
-
                     <tr>
-
-
                         <td>
-
-                            <strong>
-                                {{ group.name }}
-                            </strong>
-
+                            <strong>{{ group.name }}</strong>
                             <br>
-
                             <small class="text-muted">
                                 {{ group.description or "" }}
                             </small>
-
                         </td>
 
-
                         <td>
-
                             <span class="badge bg-primary">
-
                                 {{ group.group_type }}
-
                             </span>
-
                         </td>
-
 
                         <td>
-
-
-                            <a href="{{ url_for('balances.group_balance', group_id=group.id) }}"
-                               class="btn btn-info btn-sm">
-
+                            <a href="{{ url_for('balances.group_balance', group_id=group.id) }}" class="btn btn-info btn-sm">
                                 <i class="bi bi-wallet2"></i>
-
                                 View Balance
-
                             </a>
-
-
                         </td>
-
-
                     </tr>
-
-
                 {% endfor %}
-
-
                 </tbody>
-
-
             </table>
-
-
         </div>
-
-
         {% else %}
-
-
         <div class="text-center py-5">
-
-
             <i class="bi bi-wallet fs-1 text-secondary"></i>
-
-
-            <h4 class="mt-3">
-
-                No Groups Found
-
-            </h4>
-
-
+            <h4 class="mt-3">No Groups Found</h4>
             <p class="text-muted">
-
                 Join a group to see balances.
-
             </p>
-
-
         </div>
-
-
         {% endif %}
-
-
-
     </div>
-
 </div>
-
-
 {% endblock %}
