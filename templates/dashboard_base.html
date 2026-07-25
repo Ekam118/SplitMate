@@ -1,19 +1,14 @@
 {% extends "base.html" %}
-
 {% block content %}
 
 <div class="wrapper">
-
     <!-- Sidebar -->
-
     <aside class="sidebar">
-
         <div class="logo">
             <h3>SplitMate</h3>
         </div>
 
         <ul class="nav flex-column mt-4">
-
             <li class="nav-item">
                 <a class="nav-link {% block dashboard_active %}{% endblock %}"
                    href="{{ url_for('dashboard.dashboard_home') }}">
@@ -68,13 +63,13 @@
                     <i class="bi bi-person-circle"></i>
                     Profile
                 </a>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link"href="{{ url_for('about.about_home') }}">
                     <i class="bi bi-info-circle"></i>
                 About
                 </a>
-
             </li>
 
 
@@ -90,64 +85,36 @@
         </ul>
 
         <div class="sidebar-footer">
-
             <div class="card border-0 shadow-sm rounded-4">
-
                 <div class="card-body text-center">
-
                     <h6 class="fw-bold">
                         Split Expenses Easily
                     </h6>
-
                     <p class="small text-muted mb-0">
                         Manage trips, friends and roommates effortlessly.
                     </p>
-
                 </div>
-
             </div>
-
         </div>
-
     </aside>
 
     <!-- Main Content -->
-
     <main class="main-content">
-
-
     <div class="topbar">
-
         <div class="search-box">
 
             <form method="GET" action="{{ url_for('search.search_home') }}" class="search-box">
 
-
-                <input type="text"
-                name="q"
-                class="form-control"
-                placeholder="Search groups, expenses...">
-
-
+                <input type="text" name="q" class="form-control" placeholder="Search groups, expenses...">
                 <button class="btn btn-primary">
-
                 <i class="bi bi-search"></i>
-
                 </button>
-
-
             </form>
 
         </div>
     </div>
-
-
     {% block page_content %}
     {% endblock %}
-
-
 </main>
-
 </div>
-
 {% endblock %}

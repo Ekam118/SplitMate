@@ -13,136 +13,67 @@ active
 <div class="d-flex justify-content-between align-items-center mb-4">
 
     <div>
-        <h2 class="fw-bold mb-1">
-            Edit Expense
-        </h2>
-
+        <h2 class="fw-bold mb-1">Edit Expense</h2>
         <p>
             Update your expense information.
         </p>
-
     </div>
-
 </div>
 
 <div class="card border-0 shadow rounded-4">
-
     <div class="card-body p-4">
-
         <form method="POST">
-
             <div class="mb-3">
-
-                <label class="form-label">
-                    Group
-                </label>
-
+                <label class="form-label">Group</label>
                 <select class="form-select" disabled>
-
                     {% for group in groups %}
-
                     <option value="{{ group.id }}"
                         {% if group.id == expense.group_id %}selected{% endif %}>
-
                         {{ group.name }}
-
                     </option>
-
                     {% endfor %}
                 </select>
                 <input type="hidden" name="group_id" value="{{ expense.group_id }}">
-
-
             </div>
 
             <div class="mb-3">
-
-                <label class="form-label">
-                    Expense Title
-                </label>
-
-                <input
-                    type="text"
-                    name="title"
-                    class="form-control"
-                    value="{{ expense.title }}"
-                    required>
-
+                <label class="form-label">Expense Title</label>
+                <input type="text" name="title" class="form-control" value="{{ expense.title }}" required>
             </div>
 
             <div class="mb-3">
-
-                <label class="form-label">
-                    Description
-                </label>
-
-                <textarea
-                    name="description"
-                    class="form-control"
-                    rows="3">{{ expense.description }}</textarea>
-
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control" rows="3">
+                    {{ expense.description }}
+                </textarea>
             </div>
 
             <div class="row">
-
                 <div class="col-md-6">
-
                     <div class="mb-3">
-
-                        <label class="form-label">
-                            Amount
-                        </label>
-
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="amount"
-                            class="form-control"
-                            value="{{ expense.amount }}"
-                            required>
-
+                        <label class="form-label">Amount</label>
+                        <input type="number" step="0.01" name="amount" class="form-control" value="{{ expense.amount }}" required>
                     </div>
-
                 </div>
 
                 <div class="col-md-6">
-
                     <div class="mb-3">
+                        <label class="form-label">Currency</label>
 
-                        <label class="form-label">
-                            Currency
-                        </label>
-
-                        <select
-                            name="currency"
-                            class="form-select">
-
+                        <select name="currency" class="form-select">
                             <option value="INR" {% if expense.currency=="INR" %}selected{% endif %}>INR</option>
                             <option value="USD" {% if expense.currency=="USD" %}selected{% endif %}>USD</option>
                             <option value="EUR" {% if expense.currency=="EUR" %}selected{% endif %}>EUR</option>
-
                         </select>
-
                     </div>
-
                 </div>
-
             </div>
 
             <div class="row">
-
                 <div class="col-md-6">
-
                     <div class="mb-3">
-
-                        <label class="form-label">
-                            Category
-                        </label>
-
-                        <select
-                            name="category"
-                            class="form-select">
-
+                        <label class="form-label">Category</label>
+                        <select name="category" class="form-select">
                             <option value="Food" {% if expense.category=="Food" %}selected{% endif %}>Food</option>
                             <option value="Travel" {% if expense.category=="Travel" %}selected{% endif %}>Travel</option>
                             <option value="Hotel" {% if expense.category=="Hotel" %}selected{% endif %}>Hotel</option>
@@ -153,106 +84,58 @@ active
                             <option value="Fuel" {% if expense.category=="Fuel" %}selected{% endif %}>Fuel</option>
                             <option value="Medical" {% if expense.category=="Medical" %}selected{% endif %}>Medical</option>
                             <option value="Other" {% if expense.category=="Other" %}selected{% endif %}>Other</option>
-
                         </select>
-
                     </div>
-
                 </div>
 
                 <div class="col-md-6">
-
                     <div class="mb-3">
-
-                        <label class="form-label">
-                            Payment Method
-                        </label>
-
-                        <select
-                            name="payment_method"
-                            class="form-select">
-
+                        <label class="form-label">Payment Method</label>
+                        <select name="payment_method" class="form-select">
                             <option value="Cash" {% if expense.payment_method=="Cash" %}selected{% endif %}>Cash</option>
                             <option value="UPI" {% if expense.payment_method=="UPI" %}selected{% endif %}>UPI</option>
                             <option value="Card" {% if expense.payment_method=="Card" %}selected{% endif %}>Card</option>
                             <option value="Bank Transfer" {% if expense.payment_method=="Bank Transfer" %}selected{% endif %}>Bank Transfer</option>
-
                         </select>
-
                     </div>
-
                 </div>
-
             </div>
 
             <div class="row">
-
                 <div class="col-md-6">
-
                     <div class="mb-3">
+                        <label class="form-label">Split Type</label>
 
-                        <label class="form-label">
-                            Split Type
-                        </label>
-
-                        <select
-                            name="split_type"
-                            class="form-select">
-
+                        <select name="split_type" class="form-select">
                             <option value="Equal" {% if expense.split_type=="Equal" %}selected{% endif %}>Equal</option>
                             <option value="Percentage" {% if expense.split_type=="Percentage" %}selected{% endif %}>Percentage</option>
                             <option value="Exact" {% if expense.split_type=="Exact" %}selected{% endif %}>Exact</option>
-
                         </select>
 
                     </div>
-
                 </div>
 
                 <div class="col-md-6">
-
                     <div class="mb-3">
+                        <label class="form-label"> Expense Date</label>
 
-                        <label class="form-label">
-                            Expense Date
-                        </label>
-
-                        <input
-                            type="date"
-                            name="expense_date"
-                            class="form-control"
-                            value="{{ expense.expense_date.strftime("%Y-%m-%d") }}" 
-
-                            required>
-
+                        <input type="date" name="expense_date" class="form-control" value="{{ expense.expense_date.strftime("%Y-%m-%d") }}"  required>
                     </div>
-
                 </div>
-
             </div>
 
             <div class="mt-4">
-
-                <button
-                    type="submit"
-                    class="btn btn-primary">
+                <button type="submit" class="btn btn-primary">
                     <i class="bi bi-check-circle-fill"></i>
                     Update Expense
                 </button>
 
                 <a href="{{ url_for('expenses.expense_dashboard', expense_id=expense.id) }}"
                    class="btn btn-secondary">
-
                     Cancel
-
                 </a>
-
             </div>
-
         </form>
-
     </div>
-
 </div>
-
 {% endblock %}

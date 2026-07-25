@@ -9,7 +9,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     mail.init_app(app)
-
+ 
     import models
 
     from routes.auth import auth

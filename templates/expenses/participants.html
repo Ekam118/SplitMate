@@ -41,66 +41,41 @@ active
     <div class="card-body">
 
         <table class="table">
-
             <tr>
-
-                <th width="220">
-                    Expense
-                </th>
-
+                <th width="220">Expense</th>
                 <td>
                     {{ expense_data.title }}
                 </td>
-
             </tr>
 
             <tr>
-
-                <th>
-                    Group
-                </th>
-
+                <th>Group</th>
                 <td>
                     {{ group.name }}
                 </td>
-
             </tr>
 
             <tr>
-
-                <th>
-                    Amount
-                </th>
-
+                <th>Amount</th>
                 <td>
                     {{ expense_data.currency }}
                     {{ "%.2f"|format(expense_data.amount) }}
                 </td>
-
             </tr>
 
             <tr>
-
-                <th>
-                    Split Type
-                </th>
-
+                <th>Split Type</th>
                 <td>
                     {{ expense_data.split_type }}
                 </td>
-
             </tr>
-
         </table>
-
         <hr>
 
         <form method="POST">
-
             <h5 class="mb-3">
                 Select Participants & Amount Paid
             </h5>
-
             {% if expense_data.split_type == "Exact" %}
 
             <div class="alert alert-info">
@@ -118,49 +93,22 @@ active
             {% if members %}
 
             <table class="table align-middle">
-
                 <thead>
-
                     <tr>
-
-                        <th width="80">
-                            Select
-                        </th>
-
-                        <th>
-                            Member
-                        </th>
-
+                        <th width="80">Select</th>
+                        <th>Member</th>
                         {% if expense_data.split_type == "Exact" %}
-
-                        <th width="180">
-                            Share Amount
-                        </th>
-
+                        <th width="180">Share Amount</th>
                         {% elif expense_data.split_type == "Percentage" %}
-
-                        <th width="180">
-                            Percentage
-                        </th>
-
+                        <th width="180">Percentage</th>
                         {% endif %}
-
-                        <th width="220">
-                            Amount Paid
-                        </th>
-
+                        <th width="220">Amount Paid</th>
                     </tr>
-
                 </thead>
-
                 <tbody>
-
                 {% for member in members %}
-
                     <tr>
-
                         <td>
-
                             <input 
                             class="form-check-input" 
                             type="checkbox" 
