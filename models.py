@@ -11,6 +11,7 @@ class User(db.Model):
     email = db.Column(db.String(120),unique=True,nullable=False)
     password = db.Column(db.String(255),nullable=False)
     profile_image = db.Column(db.String(255),nullable=False,default="default.png")
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
     created_at = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
     groups = db.relationship("Group",backref="creator",lazy=True)
     expenses = db.relationship("Expense",backref="creator",lazy=True)
