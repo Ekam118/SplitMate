@@ -31,14 +31,23 @@ def register():
         if not fullname or not username or not email or not password:
             flash("All fields are required.", "danger")
             return redirect(url_for("auth.register"))
-        
-        # Password Strength Validation
-        # if len(password) < 8:
-        #     flash("Password must be at least 8 characters long.","danger")
-        #     return redirect(url_for("auth.register"))
-        
-        existing_user = User.query.filter(or_(User.username == username,User.email == email)).first()
-        
+        # Check deleted/inactive account
+        inactive_user = User.query.filter(or_(User.username == username,User.email == email),User.is_active == False).first()
+
+        if inactive_user:
+
+            inactive_user.fullname = fullname
+            inactive_user.email = email
+            inactive_user.password = generate_password_hash(password)
+            inactive_user.is_active = True
+
+            db.session.commit()
+            flash("Account restored successfully. Please login.", "success")
+            return redirect(url_for("auth.login"))
+
+        # Check active existing account
+        existing_user = User.query.filter(or_(User.username == username,User.email == email),User.is_active == True).first()
+
         if existing_user:
             flash("Username or Email already exists.", "danger")
             return redirect(url_for("auth.register"))
@@ -68,15 +77,19 @@ def login():
         password = request.form["password"]
         user = User.query.filter(or_(User.username == login,User.email == login)).first()
 
-        if user and check_password_hash(user.password, password):
+        if user:
+            if not user.is_active:
+                flash("Your account has been deleted.", "danger")
+                return redirect(url_for("auth.login"))
 
-            session["user_id"] = user.id
+            if check_password_hash(user.password, password):
+                session["user_id"] = user.id
 
-            flash("Login successful.", "success")
-            return redirect(url_for("dashboard.dashboard_home"))
-
+                flash("Login successful.", "success")
+                return redirect(url_for("dashboard.dashboard_home"))
+            
         flash("Invalid username/email or password.", "danger")
-
+        return redirect(url_for("auth.login"))
     return render_template("login.html")
 
 # ------------------------------------------------------LOGOUT--------------------------------------------------
@@ -97,8 +110,7 @@ def forgot_password():
     if request.method == "POST":
 
         email = request.form["email"].strip().lower()
-
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(email=email,is_active=True).first()
 
         if not user:
             flash("No account found with this email.", "danger")
@@ -187,8 +199,8 @@ def reset_password():
             flash("Passwords do not match.", "danger")
             return redirect(url_for("auth.reset_password"))
 
-        user = User.query.filter_by(email=session["reset_email"]).first()
-
+        user = User.query.filter_by(email=session["reset_email"],is_active=True).first()
+        
         if not user:
             flash("User not found.", "danger")
             return redirect(url_for("auth.forgot_password"))

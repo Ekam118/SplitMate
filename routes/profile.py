@@ -113,31 +113,8 @@ def delete_account():
 
         try:
 
-            # Delete notifications
-            for notification in user.notifications:
-                db.session.delete(notification)
-
-            # Delete settlements
-            for settlement in (
-                user.sent_settlements +
-                user.received_settlements
-            ):
-                db.session.delete(settlement)
-
-            # Delete expense participants
-            for participant in user.expense_participants:
-                db.session.delete(participant)
-
-            # Delete groups created by user
-            for group in user.groups:
-                db.session.delete(group)
-
-            # Delete group memberships
-            for membership in user.group_memberships:
-                db.session.delete(membership)
-
-            # Delete user
-            db.session.delete(user)
+            # Soft delete user
+            user.is_active = False
 
             db.session.commit()
 
