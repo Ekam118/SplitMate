@@ -24,7 +24,7 @@ def upgrade():
                 'is_active',
                 sa.Boolean(),
                 nullable=False,
-                server_default='1'
+                server_default=sa.text("1")
             )
         )
 
