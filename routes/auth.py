@@ -141,13 +141,6 @@ If you didn't request this, simply ignore this email.
 Team SplitMate
 """
 
-        from flask import current_app
-
-        print("SERVER:", current_app.config["MAIL_SERVER"])
-        print("PORT:", current_app.config["MAIL_PORT"])
-        print("TLS:", current_app.config["MAIL_USE_TLS"])
-        print("USERNAME:", current_app.config["MAIL_USERNAME"])
-
         mail.send(msg)
 
 
